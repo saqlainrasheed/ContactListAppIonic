@@ -1,17 +1,71 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs"> </ion-back-button>
+    </ion-buttons>
     <ion-title>
-      Tab 3
+      Edit Contact
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <form [formGroup]="contactForm" *ngIf='contactForm' (ngSubmit)="onSubmit()">
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+    <ion-item class="example-full-width" appearance="fill">
+      <ion-label>firstName</ion-label>
+      <ion-input matInput value="{{contact.firstName}}" formControlName="firstName" type='text'></ion-input>
+    </ion-item>
+
+    <br>
+    <ion-item class="example-full-width" appearance="fill">
+      <ion-label for="lastName">lastName</ion-label>
+      <ion-input formControlName="lastName" type="text"></ion-input>
+    </ion-item>
+    <br>
+    <ion-item class="example-full-width" appearance="fill">
+      <ion-label for="designation">designation</ion-label>
+      <ion-input matInput formControlName="designation" type="text"></ion-input>
+    </ion-item>
+    <br>
+
+    <ion-item>
+      <a color='primary' href="#" (click)="addAlternatePhoneNumber()">+ Add phone
+        number</a>
+    </ion-item>
+    <div formArrayName="phoneNumbers" *ngFor="let phoneNumber of alternatePhoneNumbers.controls; let i = index">
+      <ion-item class="example-full-width" appearance="fill">
+        <ion-input matInput type="tel" [formControlName]="i"></ion-input>
+      </ion-item>
+    </div>
+    <br>
+
+    <ion-item class="example-full-width" appearance="fill">
+      <ion-label for="email">email</ion-label>
+      <ion-input matInput formControlName="email" type="email"></ion-input>
+    </ion-item>
+    <br />
+
+    <ion-item class="example-full-width" appearance="fill">
+      <ion-label for="longitude">Current Longitude</ion-label>
+      <ion-input matInput formControlName="longitude" type="text"></ion-input>
+    </ion-item>
+    <br />
+
+
+    <ion-item class="example-full-width" appearance="fill">
+      <ion-label for="latitude">Current Latitude</ion-label>
+      <ion-input matInput formControlName="latitude" type="text"></ion-input>
+    </ion-item>
+    <br />
+
+
+    <ion-item>
+      <ion-button (click)='selectImage($event)' color="dark">Change image</ion-button>
+      <img src="{{contact.imageUrl}}" alt="image">
+    </ion-item>
+
+
+    <ion-button color='warning' value="save" (click)='onSubmit()'>Save</ion-button>
+  </form>
 </ion-content>

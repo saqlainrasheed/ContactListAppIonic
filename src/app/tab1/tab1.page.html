@@ -1,17 +1,47 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      {{title}}
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button color="secondary">
+      <ion-icon name="add" routerLink='/tabs/tab2'></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <!-- <ion-button size='medium'>&plus; Add contact</ion-button> -->
+  <ion-searchbar (keyup)='search($event)'></ion-searchbar>
+  <table mat-table [dataSource]="contacts">
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+    <ng-container matColumnDef="firstName">
+      <th mat-header-cell *matHeaderCellDef> First name </th>
+      <td mat-cell *matCellDef="let contact"> {{contact.firstName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let contact"> {{contact.email}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef> Edit </th>
+      <td mat-cell *matCellDef="let contact">
+        <ion-button color='medium' routerLink="/tabs/tab3/{{contact.id}}">edit</ion-button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef> Delete </th>
+      <td mat-cell *matCellDef="let contact">
+        <ion-button color='danger' (click)='deleteContact(contact)'>Delete
+        </ion-button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
 </ion-content>

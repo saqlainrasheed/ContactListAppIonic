@@ -1,17 +1,86 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs"> </ion-back-button>
+    </ion-buttons>
+
     <ion-title>
-      Tab 2
+      Add Contact
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+
+
+  <form class="example-form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+
+    <ion-item class="example-full-width" appearance="fill">
+      <ion-label for="firstName">firstName</ion-label>
+      <ion-input formControlName="firstName" placeholder='firstname' type="text">
+      </ion-input>
+      <div *ngIf="submitted && f.firstName.errors.required">
+        this field is required
+      </div>
+    </ion-item>
+
+    <ion-item class="example-full-width" appearance="fill">
+      <ion-label for="lastName">lastName</ion-label>
+      <ion-input formControlName="lastName" placeholder='lastname' type="text"></ion-input>
+      <div *ngIf="submitted && f.lastName.errors.required">
+        this field is required
+      </div>
+    </ion-item>
+
+    <ion-item class="example-full-width" appearance="fill">
+      <ion-label for="designation">designation</ion-label>
+      <ion-input formControlName="designation" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label for="phoneNumbers">phone Number</ion-label>
+      <a href="javascript:(void);" mat-button color='primary' (click)="addAlternatePhoneNumber()">+ Add phone number</a>
+    </ion-item>
+    <div formArrayName="phoneNumbers" *ngFor="let phoneNumber of alternatePhoneNumbers.controls; let i = index">
+      <ion-item class="example-full-width" appearance="fill">
+        <ion-input type="tel" [formControlName]="i" placeholder='number'></ion-input>
+      </ion-item>
+    </div>
+
+
+    <ion-item class="example-full-width" appearance="fill">
+      <ion-label for="email">email</ion-label>
+      <ion-input formControlName="email" type="email" placeholder="Email"></ion-input>
+      <div *ngIf="submitted && f.email.errors.required">this field is required</div>
+    </ion-item>
+
+    <ion-item class="example-full-width" appearance="fill">
+      <ion-label for="longitude">Current Longitude</ion-label>
+      <ion-input formControlName="longitude" placeholder="longitude" type="text"></ion-input>
+      <div *ngIf="submitted && f.longitude.errors.required">
+        this field is required
+      </div>
+    </ion-item>
+
+    <ion-item class="example-full-width" appearance="fill">
+      <ion-label for="latitude">Current Latitude</ion-label>
+      <ion-input formControlName="latitude" placeholder="latitude" type="text"></ion-input>
+      <div *ngIf="submitted && f.latitude.errors.required">
+        this field is required
+      </div>
+    </ion-item>
+
+    <div *ngIf="base64Image">
+      <img src="base64Image.png">
+    </div>
+
+    <ion-item>
+      <ion-button (click)='selectImage($event)' color="dark">Choose image</ion-button>
+    </ion-item>
+    <br>
+    <ion-button value="save" (click)="onSubmit()" color='primary' style="margin: 20px 10px;">Save</ion-button>
+    <ion-button color='warning' (click)="onDiscard()">discard</ion-button>
+  </form>
+
 </ion-content>
